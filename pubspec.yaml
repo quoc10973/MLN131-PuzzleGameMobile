@@ -66,8 +66,10 @@ flutter:
     - assets/starting.png
     # Include the whole assets directory (covers other root assets if any)
     - assets/
-    # Explicitly include the puzzle folder to ensure images are bundled
-    - assets/puzzle/
+    # Explicitly include puzzle level folders to ensure they are bundled
+    - assets/puzzle/lv1/
+    - assets/puzzle/lv2/
+    - assets/puzzle/lv3/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

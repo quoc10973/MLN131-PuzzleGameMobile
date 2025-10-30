@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'hello_screen.dart';
-import 'memory_game_screen.dart';
+import 'main_menu_screen.dart';
 import 'package:flutter/services.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -52,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen>
     Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const MemoryGameScreen()),
+          MaterialPageRoute(builder: (context) => const MainMenuScreen()),
         );
       }
     });

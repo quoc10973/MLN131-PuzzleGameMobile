@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class MemoryGameScreen extends StatefulWidget {
-  const MemoryGameScreen({super.key});
+  final String assetFolder;
+  const MemoryGameScreen({super.key, required this.assetFolder});
 
   @override
   State<MemoryGameScreen> createState() => _MemoryGameScreenState();
@@ -21,18 +23,31 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
   }
 
   Future<void> _loadAssetsAndSetup() async {
-    // Use AssetManifest API (handles format changes across Flutter versions)
+    final String folder = widget.assetFolder;
+    // Try new API first
     final AssetManifest manifest =
         await AssetManifest.loadFromAssetBundle(rootBundle);
-    final List<String> puzzleAssets = manifest
+    final List<String> fromApi = manifest
         .listAssets()
-        .where((String key) => key.startsWith('assets/puzzle/'))
+        .where((String key) => key.startsWith(folder))
         .toList(growable: false);
+
+    // Fallback to JSON manifest parsing (for older Flutter/runtime quirks)
+    List<String> fromJson = <String>[];
+    try {
+      final String jsonStr = await rootBundle.loadString('AssetManifest.json');
+      final Map<String, dynamic> map = json.decode(jsonStr) as Map<String, dynamic>;
+      fromJson = map.keys
+          .where((String key) => key.startsWith(folder))
+          .toList(growable: false);
+    } catch (_) {}
+
+    final List<String> puzzleAssets = {...fromApi, ...fromJson}.toList();
 
     if (puzzleAssets.isEmpty) {
       setState(() {
         _cards.clear();
-        _debugInfo = 'Không tìm thấy file trong assets/puzzle';
+        _debugInfo = 'Không tìm thấy file trong $folder';
       });
       return;
     }
@@ -52,7 +67,7 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
       _cards
         ..clear()
         ..addAll(generated);
-      _debugInfo = 'Đã nạp ${puzzleAssets.length} ảnh từ assets/puzzle';
+      _debugInfo = 'Đã nạp ${puzzleAssets.length} ảnh từ $folder (API:${fromApi.length}, JSON:${fromJson.length})';
     });
   }
 
@@ -143,7 +158,6 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
             ? _EmptyOrLoading(debugInfo: _debugInfo)
             : LayoutBuilder(
                 builder: (BuildContext context, BoxConstraints constraints) {
-                  // Determine grid crossAxisCount based on width
                   final double width = constraints.maxWidth;
                   int crossAxisCount = 2;
                   if (width >= 1000) {
@@ -213,7 +227,7 @@ class _EmptyOrLoading extends StatelessWidget {
         children: <Widget>[
           const CircularProgressIndicator(),
           const SizedBox(height: 12),
-          const Text('Đang tải ảnh hoặc không tìm thấy ảnh trong assets/puzzle'),
+          const Text('Đang tải ảnh hoặc không tìm thấy ảnh.'),
           if (debugInfo != null) ...<Widget>[
             const SizedBox(height: 8),
             Text(
