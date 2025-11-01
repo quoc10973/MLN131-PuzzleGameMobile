@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'hello_screen.dart';
 import 'main_menu_screen.dart';
-import 'package:flutter/services.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,7 +14,6 @@ class _SplashScreenState extends State<SplashScreen>
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   late Animation<double> _scaleAnimation;
-  String? _splashAssetError;
 
   @override
   void initState() {
@@ -56,9 +54,6 @@ class _SplashScreenState extends State<SplashScreen>
         );
       }
     });
-
-    // Probe splash asset presence and store any error message
-    _probeSplashAsset();
   }
 
   @override
@@ -79,7 +74,7 @@ class _SplashScreenState extends State<SplashScreen>
           children: <Widget>[
             // Background image with fallback if asset missing
             Image.asset(
-              'assets/starting.png',
+              'assets/starting.jpg',
               fit: BoxFit.cover,
               errorBuilder: (BuildContext context, Object error, StackTrace? stack) {
                 return const SizedBox.shrink();
@@ -103,19 +98,17 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                       const SizedBox(height: 20),
                       // Loading text
-                      Text(
-                        _splashAssetError == null
-                            ? 'Loading...'
-                            : 'Không load được assets/starting.png',
+                      const Text(
+                        'Loading...',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
                           shadows: [
                             Shadow(
-                              offset: const Offset(1, 1),
+                              offset: Offset(1, 1),
                               blurRadius: 3,
-                              color: Colors.black.withOpacity(0.5),
+                              color: Color.fromRGBO(0, 0, 0, 0.5),
                             ),
                           ],
                         ),
@@ -133,20 +126,4 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 
-  Future<void> _probeSplashAsset() async {
-    try {
-      await rootBundle.load('assets/starting.png');
-      if (mounted) {
-        setState(() {
-          _splashAssetError = null;
-        });
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() {
-          _splashAssetError = e.toString();
-        });
-      }
-    }
-  }
 }

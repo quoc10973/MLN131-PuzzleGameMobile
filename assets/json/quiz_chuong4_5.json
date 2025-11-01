@@ -1,0 +1,402 @@
+[
+    {
+        "question": "Dân chủ xã hội chủ nghĩa ở Việt Nam ra đời gắn liền với:",
+        "options": [
+            "Sự thành lập nước Việt Nam Dân chủ Cộng hòa năm 1945.",
+            "Sự nghiệp đổi mới năm 1986.",
+            "Hiến pháp năm 1992.",
+            "Sự phát triển của kinh tế thị trường."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Theo Đảng ta, nền dân chủ XHCN có bản chất:",
+        "options": [
+            "Là của nhân dân, do nhân dân và vì nhân dân.",
+            "Thuộc về Nhà nước, do Nhà nước ban hành.",
+            "Là công cụ của giai cấp thống trị.",
+            "Là hình thức dân chủ đại nghị tư sản."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Dân chủ XHCN gắn liền với mục tiêu tổng quát của cách mạng Việt Nam là:",
+        "options": [
+            "Dân giàu, nước mạnh, dân chủ, công bằng, văn minh.",
+            "Phát triển kinh tế thị trường định hướng XHCN.",
+            "Công nghiệp hóa, hiện đại hóa đất nước.",
+            "Xóa đói giảm nghèo."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Theo Hồ Chí Minh, “Nước ta là nước dân chủ” nghĩa là:",
+        "options": [
+            "Bao nhiêu quyền lợi đều vì dân, bao nhiêu quyền hạn đều của dân.",
+            "Dân chỉ có quyền bầu cử, không có quyền tham gia quản lý.",
+            "Dân chủ chỉ thuộc về cơ quan Nhà nước.",
+            "Dân chủ chỉ giới hạn trong kinh tế."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Hình thức dân chủ trực tiếp được thể hiện ở:",
+        "options": [
+            "Nhân dân trực tiếp tham gia quyết định những vấn đề của đất nước.",
+            "Quốc hội quyết định thay nhân dân.",
+            "Đảng và Chính phủ quy định thay dân.",
+            "Cử tri ủy quyền cho đại biểu."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Hình thức dân chủ gián tiếp thể hiện qua:",
+        "options": [
+            "Nhân dân bầu cử, ủy quyền cho đại biểu đại diện thực hiện quyền lực.",
+            "Các cơ quan Nhà nước tự bổ nhiệm lẫn nhau.",
+            "Quyết định tập thể của Đảng.",
+            "Hội nghị chuyên đề về luật pháp."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Trong xã hội XHCN, dân chủ được thực hiện trên tất cả:",
+        "options": [
+            "Lĩnh vực kinh tế, chính trị, văn hóa và xã hội.",
+            "Lĩnh vực kinh tế.",
+            "Lĩnh vực hành chính.",
+            "Lĩnh vực pháp luật."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Nhà nước pháp quyền XHCN Việt Nam là:",
+        "options": [
+            "Nhà nước của nhân dân, do nhân dân, vì nhân dân.",
+            "Nhà nước cai trị của giai cấp thống trị.",
+            "Nhà nước tách rời nhân dân.",
+            "Nhà nước quân chủ lập hiến."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Một đặc trưng cơ bản của Nhà nước pháp quyền XHCN là:",
+        "options": [
+            "Quyền lực nhà nước là thống nhất, có sự phân công, phối hợp, kiểm soát giữa các cơ quan lập pháp, hành pháp, tư pháp.",
+            "Quyền lực tập trung tuyệt đối vào Quốc hội.",
+            "Chính phủ đứng trên pháp luật.",
+            "Không có cơ chế kiểm soát quyền lực."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Cơ sở pháp lý cao nhất của Nhà nước pháp quyền XHCN là:",
+        "options": [
+            "Hiến pháp và pháp luật.",
+            "Các nghị quyết của Đảng.",
+            "Quyết định hành chính.",
+            "Quy chế nội bộ."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Theo quan điểm của Đảng, Nhà nước pháp quyền XHCN phải:",
+        "options": [
+            "Do Đảng Cộng sản Việt Nam lãnh đạo.",
+            "Tách khỏi sự lãnh đạo của Đảng.",
+            "Do Quốc hội quyết định mọi việc.",
+            "Do nhân dân tự vận hành."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Bản chất của Nhà nước pháp quyền XHCN là:",
+        "options": [
+            "Nhà nước mang bản chất giai cấp công nhân, đại biểu cho lợi ích của nhân dân.",
+            "Nhà nước của tầng lớp tư sản.",
+            "Nhà nước chỉ phục vụ quản lý hành chính.",
+            "Nhà nước hoạt động độc lập với pháp luật."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Trong Nhà nước pháp quyền, mọi công dân:",
+        "options": [
+            "Đều bình đẳng trước pháp luật.",
+            "Chịu sự giám sát của cơ quan hành pháp.",
+            "Chỉ có nghĩa vụ, không có quyền.",
+            "Có quyền trên pháp luật."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Xây dựng Nhà nước pháp quyền XHCN phải dựa trên nguyên tắc:",
+        "options": [
+            "Tất cả quyền lực nhà nước thuộc về nhân dân.",
+            "Quyền lực thuộc về Đảng.",
+            "Chính phủ nắm quyền tối cao.",
+            "Quyền lực tản mạn giữa các ngành."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Pháp quyền XHCN Việt Nam thể hiện ở yêu cầu:",
+        "options": [
+            "Tăng cường pháp chế, quản lý xã hội bằng pháp luật.",
+            "Ưu tiên mệnh lệnh hành chính.",
+            "Coi trọng tập quán truyền thống.",
+            "Giảm vai trò của pháp luật."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Nhà nước pháp quyền XHCN bảo đảm:",
+        "options": [
+            "Quyền con người, quyền công dân được tôn trọng và bảo vệ.",
+            "Quyền lực tập trung tuyệt đối.",
+            "Quyền lực kinh tế ưu tiên trước pháp luật.",
+            "Không cần cơ chế kiểm soát."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Một trong những nguyên tắc quan trọng trong hoạt động của Nhà nước pháp quyền là:",
+        "options": [
+            "Tất cả các cơ quan, tổ chức, cá nhân đều hoạt động trong khuôn khổ Hiến pháp và pháp luật.",
+            "Chỉ cơ quan hành pháp phải tuân theo luật.",
+            "Cơ quan tư pháp có thể vượt quyền.",
+            "Cán bộ cấp cao có thể miễn trừ pháp luật."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Theo Đảng, việc xây dựng Nhà nước pháp quyền XHCN phải:",
+        "options": [
+            "Đặt dưới sự lãnh đạo của Đảng Cộng sản Việt Nam.",
+            "Do Quốc hội toàn quyền điều hành.",
+            "Không có vai trò của Đảng.",
+            "Chỉ là nhiệm vụ của Chính phủ."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Phát huy dân chủ XHCN và xây dựng Nhà nước pháp quyền XHCN có mối quan hệ:",
+        "options": [
+            "Bổ sung, thúc đẩy lẫn nhau.",
+            "Đối lập nhau.",
+            "Không liên quan.",
+            "Tách biệt giữa lý luận và thực tiễn."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Mục tiêu của việc phát huy dân chủ và xây dựng Nhà nước pháp quyền ở Việt Nam là:",
+        "options": [
+            "Xây dựng một xã hội dân chủ, công bằng, văn minh, vì con người.",
+            "Tăng cường kiểm soát hành chính.",
+            "Giảm vai trò của nhân dân.",
+            "Tập trung quyền lực vào cơ quan lập pháp."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Cơ cấu xã hội – giai cấp là gì?",
+        "options": [
+            "Là hệ thống những mối quan hệ giữa các giai cấp, tầng lớp xã hội trong một hình thái kinh tế – xã hội nhất định.",
+            "Là hình thức tổ chức chính trị của xã hội.",
+            "Là hệ thống luật pháp và thể chế nhà nước.",
+            "Là sự phân chia lao động giữa các ngành."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Cơ cấu xã hội – giai cấp phản ánh điều gì?",
+        "options": [
+            "Những quan hệ về lợi ích và địa vị giữa các giai cấp, tầng lớp trong xã hội.",
+            "Sự khác biệt về ngôn ngữ.",
+            "Sự phân bố dân cư theo vùng miền.",
+            "Trình độ phát triển công nghiệp."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Theo Mác – Lênin, cơ cấu xã hội – giai cấp gắn liền với:",
+        "options": [
+            "Quan hệ sản xuất.",
+            "Quan hệ dân tộc.",
+            "Trình độ giáo dục.",
+            "Văn hóa tinh thần."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Trong thời kỳ quá độ lên CNXH, cơ cấu xã hội – giai cấp ở Việt Nam gồm:",
+        "options": [
+            "Giai cấp công nhân, giai cấp nông dân, tầng lớp trí thức, doanh nhân, và các tầng lớp khác.",
+            "Giai cấp tư sản và địa chủ.",
+            "Nông dân và viên chức nhà nước.",
+            "Quý tộc và nông nô."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Giai cấp công nhân có vai trò gì trong cơ cấu xã hội thời kỳ quá độ?",
+        "options": [
+            "Là lực lượng lãnh đạo cách mạng và trung tâm của liên minh giai cấp.",
+            "Là giai cấp sản xuất nhỏ.",
+            "Là tầng lớp phụ thuộc nông nghiệp.",
+            "Là nhóm lợi ích riêng biệt."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Giai cấp nông dân giữ vai trò gì trong thời kỳ quá độ lên CNXH?",
+        "options": [
+            "Là lực lượng liên minh chủ yếu với công nhân.",
+            "Là giai cấp lãnh đạo.",
+            "Là tầng lớp quản lý hành chính.",
+            "Là lực lượng tách biệt với tiến trình xây dựng CNXH."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Tầng lớp trí thức trong cơ cấu xã hội – giai cấp được coi là:",
+        "options": [
+            "Cầu nối giữa khoa học – công nghệ và sản xuất.",
+            "Giai cấp bóc lột.",
+            "Lực lượng thuần túy chính trị.",
+            "Nhóm trung gian không có vai trò cụ thể."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Cơ cấu xã hội – giai cấp có vị trí:",
+        "options": [
+            "Cơ bản, chi phối các loại hình cơ cấu xã hội khác.",
+            "Không có ảnh hưởng đáng kể.",
+            "Chỉ liên quan đến lĩnh vực chính trị.",
+            "Chỉ tồn tại trong xã hội nông nghiệp."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Mỗi giai cấp, tầng lớp xã hội có:",
+        "options": [
+            "Vị trí, vai trò, lợi ích khác nhau trong xã hội.",
+            "Mức sống và chức năng giống nhau.",
+            "Không liên quan đến quá trình sản xuất.",
+            "Bị loại bỏ trong thời kỳ CNXH."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Cơ cấu xã hội – giai cấp tác động đến:",
+        "options": [
+            "Mọi lĩnh vực đời sống kinh tế, chính trị, văn hóa – xã hội.",
+            "Chỉ tác động đến kinh tế.",
+            "Chỉ ảnh hưởng đến chính trị.",
+            "Không tác động đến xã hội."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Cơ cấu xã hội – giai cấp biến đổi theo quy luật nào?",
+        "options": [
+            "Gắn liền và bị quy định bởi cơ cấu kinh tế của thời kỳ quá độ.",
+            "Tự phát, không theo quy luật.",
+            "Phụ thuộc vào sự thay đổi chính quyền.",
+            "Không biến đổi trong thời kỳ quá độ."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Ph. Ăngghen cho rằng sự biến đổi của cơ cấu xã hội – giai cấp gắn với:",
+        "options": [
+            "Sự phát triển của lực lượng sản xuất và phương thức sản xuất.",
+            "Sự thay đổi địa lý.",
+            "Sự thay đổi dân số.",
+            "Sự biến động tự nhiên."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Sau thắng lợi của cách mạng XHCN, yếu tố nào ảnh hưởng mạnh đến biến đổi cơ cấu xã hội – giai cấp?",
+        "options": [
+            "Sự phát triển của lực lượng sản xuất và cách mạng khoa học – kỹ thuật.",
+            "Việc mở rộng thương mại tự do.",
+            "Biến động khí hậu.",
+            "Sự suy giảm dân số."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Ở các nước bước vào thời kỳ quá độ với trình độ thấp, cơ cấu kinh tế thường:",
+        "options": [
+            "Chuyển từ nông nghiệp sang công nghiệp và dịch vụ.",
+            "Giữ nguyên như cũ.",
+            "Chỉ dựa vào dịch vụ.",
+            "Không có sự thay đổi rõ rệt."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Cơ cấu xã hội – giai cấp thay đổi chủ yếu do:",
+        "options": [
+            "Biến đổi trong cơ cấu kinh tế và quá trình công nghiệp hóa, hiện đại hóa.",
+            "Sự thay đổi của thể chế chính trị.",
+            "Tác động của tự nhiên.",
+            "Chính sách thuế."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Mác – Lênin cho rằng hình thái kinh tế – xã hội cộng sản chủ nghĩa được “thai nghén” trong:",
+        "options": [
+            "Lòng xã hội tư bản chủ nghĩa.",
+            "Xã hội phong kiến.",
+            "Thời kỳ chiếm hữu nô lệ.",
+            "Xã hội nông nghiệp cổ đại."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Theo Mác – Lênin, trong thời kỳ quá độ lên CNXH, xã hội còn tồn tại:",
+        "options": [
+            "Nhiều giai cấp, tầng lớp khác nhau.",
+            "Một giai cấp duy nhất.",
+            "Chỉ tầng lớp công nhân.",
+            "Không có phân tầng xã hội."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Quá trình biến đổi cơ cấu xã hội – giai cấp dẫn đến xu hướng:",
+        "options": [
+            "Giảm dần sự cách biệt giữa thành thị và nông thôn, lao động trí óc và chân tay.",
+            "Gia tăng mâu thuẫn giai cấp.",
+            "Tăng chênh lệch thu nhập.",
+            "Mở rộng phân tầng xã hội."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Trong thời kỳ quá độ, cơ cấu xã hội – giai cấp và liên minh giai cấp có vai trò:",
+        "options": [
+            "Đảm bảo ổn định chính trị – xã hội, hướng đến công bằng xã hội.",
+            "Làm chậm quá trình công nghiệp hóa.",
+            "Thúc đẩy cạnh tranh giai cấp.",
+            "Làm giảm vai trò của Đảng."
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "Mục tiêu của biến đổi cơ cấu xã hội – giai cấp trong thời kỳ quá độ là:",
+        "options": [
+            "Xóa bỏ dần bất bình đẳng, tăng cường khối đại đoàn kết và phát triển toàn diện xã hội.",
+            "Duy trì phân tầng xã hội sâu sắc.",
+            "Giữ nguyên quan hệ cũ.",
+            "Tập trung cho kinh tế tư nhân."
+        ],
+        "answer": "A"
+    }
+]

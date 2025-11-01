@@ -48,6 +48,7 @@ dev_dependencies:
 
 # Native splash configuration tool
   flutter_native_splash: ^2.4.1
+  flutter_launcher_icons: ^0.13.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -63,13 +64,15 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     # Explicitly include the starting image
-    - assets/starting.png
+    - assets/starting.jpg
     # Include the whole assets directory (covers other root assets if any)
     - assets/
     # Explicitly include puzzle level folders to ensure they are bundled
     - assets/puzzle/lv1/
     - assets/puzzle/lv2/
     - assets/puzzle/lv3/
+    # JSON quiz files
+    - assets/json/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -99,7 +102,8 @@ flutter:
 
 flutter_native_splash:
   # Use your image as background for most platforms (Android <= 11, iOS)
-  background_image: assets/starting.png
+  image: assets/icon.png
+  color: "#F5ECD5"
   android: true
   ios: true
   web: false
@@ -107,5 +111,12 @@ flutter_native_splash:
   # Android 12 has different requirements; background images aren't supported.
   # We'll show your image centered on a solid background.
   android_12:
-    image: assets/starting.png
-    color: "#000000"
+    image: assets/icon.png
+    color: "#F5ECD5"
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/icon.png"

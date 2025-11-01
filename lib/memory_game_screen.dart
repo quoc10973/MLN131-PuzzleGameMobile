@@ -14,35 +14,44 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
   final List<_CardModel> _cards = <_CardModel>[];
   bool _isChecking = false;
   int _moves = 0;
+  int _quizPoints = 0;
   String? _debugInfo;
+  List<_QuizQuestion> _quizQuestions = [];
 
   @override
   void initState() {
     super.initState();
-    _loadAssetsAndSetup();
+    _initializeGame();
+  }
+
+  Future<void> _initializeGame() async {
+    await _loadAssetsAndSetup();
+    await _loadQuiz();
+  }
+
+  Future<void> _loadQuiz() async {
+    try {
+      final String jsonString =
+          await rootBundle.loadString('assets/json/quiz_chuong4_5.json');
+      final List<dynamic> jsonData = json.decode(jsonString) as List<dynamic>;
+      _quizQuestions = jsonData
+          .map((json) => _QuizQuestion.fromJson(json as Map<String, dynamic>))
+          .toList();
+      _quizQuestions.shuffle(); // Randomize questions
+    } catch (e) {
+      // Quiz load error - can still play without quiz
+    }
   }
 
   Future<void> _loadAssetsAndSetup() async {
     final String folder = widget.assetFolder;
-    // Try new API first
+    // Use new API only
     final AssetManifest manifest =
         await AssetManifest.loadFromAssetBundle(rootBundle);
-    final List<String> fromApi = manifest
+    final List<String> puzzleAssets = manifest
         .listAssets()
         .where((String key) => key.startsWith(folder))
         .toList(growable: false);
-
-    // Fallback to JSON manifest parsing (for older Flutter/runtime quirks)
-    List<String> fromJson = <String>[];
-    try {
-      final String jsonStr = await rootBundle.loadString('AssetManifest.json');
-      final Map<String, dynamic> map = json.decode(jsonStr) as Map<String, dynamic>;
-      fromJson = map.keys
-          .where((String key) => key.startsWith(folder))
-          .toList(growable: false);
-    } catch (_) {}
-
-    final List<String> puzzleAssets = {...fromApi, ...fromJson}.toList();
 
     if (puzzleAssets.isEmpty) {
       setState(() {
@@ -67,7 +76,7 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
       _cards
         ..clear()
         ..addAll(generated);
-      _debugInfo = 'Đã nạp ${puzzleAssets.length} ảnh từ $folder (API:${fromApi.length}, JSON:${fromJson.length})';
+      _debugInfo = 'Đã nạp ${puzzleAssets.length} ảnh từ $folder';
     });
   }
 
@@ -78,6 +87,30 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
     final _CardModel tapped = _cards[index];
     if (tapped.isMatched || tapped.isFaceUp) return;
 
+    // Kiểm tra số thẻ đang lật trước khi lật thẻ này
+    final int currentlyFaceUp = _cards.where((c) => c.isFaceUp && !c.isMatched).length;
+    
+    // Nếu chưa có thẻ nào lật và không đủ 2 điểm, không cho lật
+    if (currentlyFaceUp == 0 && _quizPoints < 2) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Cần 2 điểm quiz để bắt đầu lật ảnh! Hiện tại: $_quizPoints điểm'),
+            duration: const Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+            margin: const EdgeInsets.only(bottom: 70, left: 8, right: 8),
+          ),
+        );
+      return;
+    }
+    
+    // Trừ 2 điểm khi bắt đầu lật cặp (chỉ lần lật đầu tiên)
+    if (currentlyFaceUp == 0) {
+      setState(() {
+        _quizPoints -= 2;
+      });
+    }
+
+    // Lật thẻ
     setState(() {
       tapped.isFaceUp = true;
     });
@@ -85,6 +118,7 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
     final List<_CardModel> faceUpUnmatched =
         _cards.where((c) => c.isFaceUp && !c.isMatched).toList(growable: false);
 
+    // Khi có 2 thẻ được lật (cặp thẻ), xử lý
     if (faceUpUnmatched.length == 2) {
       setState(() {
         _moves += 1;
@@ -122,6 +156,21 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
+          // Xác định level hiện tại và level tiếp theo
+          final currentLevel = widget.assetFolder;
+          String? nextLevel;
+          String levelName;
+          
+          if (currentLevel.contains('lv1')) {
+            nextLevel = 'assets/puzzle/lv2/';
+            levelName = 'Dễ';
+          } else if (currentLevel.contains('lv2')) {
+            nextLevel = 'assets/puzzle/lv3/';
+            levelName = 'Vừa';
+          } else {
+            levelName = 'Khó';
+          }
+          
           return AlertDialog(
             title: const Text('Chúc mừng!'),
             content: Text('Bạn đã hoàn thành với $_moves lượt lật.'),
@@ -130,14 +179,77 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
                 onPressed: () {
                   Navigator.of(context).pop();
                   _loadAssetsAndSetup();
+                  setState(() {
+                    _quizPoints = 0;
+                  });
                 },
                 child: const Text('Chơi lại'),
               ),
+              if (nextLevel != null) ...[
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => MemoryGameScreen(assetFolder: nextLevel!),
+                      ),
+                    );
+                  },
+                  child: const Text('Chơi tiếp'),
+                ),
+              ],
             ],
           );
         },
       );
     }
+  }
+
+  void _showQuizModal() {
+    if (_quizQuestions.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Chưa tải được quiz!'),
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(bottom: 70, left: 8, right: 8),
+        ),
+      );
+      return;
+    }
+    // Random chọn một câu hỏi từ danh sách
+    final randomIndex = DateTime.now().microsecondsSinceEpoch % _quizQuestions.length;
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => _QuizModal(
+        question: _quizQuestions[randomIndex],
+        onCorrect: () {
+          setState(() {
+            _quizPoints++;
+          });
+          Navigator.of(context).pop();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('✓ Trả lời đúng! +1 điểm'),
+              backgroundColor: Colors.green,
+              behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.only(bottom: 70, left: 8, right: 8),
+            ),
+          );
+        },
+        onWrong: () {
+          Navigator.of(context).pop();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('✗ Trả lời sai! Không có điểm'),
+              backgroundColor: Colors.red,
+              behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.only(bottom: 70, left: 8, right: 8),
+            ),
+          );
+        },
+      ),
+    );
   }
 
   @override
@@ -166,9 +278,10 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
                     crossAxisCount = 5;
                   } else if (width >= 600) {
                     crossAxisCount = 4;
-                  } else if (width >= 400) {
+                  } else if (width >= 360) {
                     crossAxisCount = 3;
                   }
+                  // < 360: default 2
 
                   return Column(
                     children: <Widget>[
@@ -181,6 +294,11 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleMedium),
+                            Text('Điểm: $_quizPoints',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(color: Colors.green)),
                             Text('Còn: ${_cards.where((c) => !c.isMatched).length}',
                                 style: Theme.of(context)
                                     .textTheme
@@ -188,9 +306,10 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
                           ],
                         ),
                       ),
+                      const SizedBox(height: 8),
                       Expanded(
                         child: GridView.builder(
-                          padding: const EdgeInsets.all(12),
+                          padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: crossAxisCount,
                             crossAxisSpacing: 12,
@@ -204,6 +323,22 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
                               onTap: () => _onCardTap(index),
                             );
                           },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton.icon(
+                            onPressed: _showQuizModal,
+                            icon: const Icon(Icons.quiz),
+                            label: const Text('Trả lời quiz để có điểm!'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.purple,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -309,4 +444,121 @@ class _CardView extends StatelessWidget {
   }
 }
 
+class _QuizQuestion {
+  final String question;
+  final List<String> options;
+  final String answer;
 
+  _QuizQuestion({
+    required this.question,
+    required this.options,
+    required this.answer,
+  });
+
+  factory _QuizQuestion.fromJson(Map<String, dynamic> json) {
+    final originalOptions = List<String>.from(json['options'] as List);
+    final originalAnswer = json['answer'] as String;
+    
+    // Tìm index của đáp án gốc (A=0, B=1, C=2, D=3)
+    final originalAnswerIndex = originalAnswer.codeUnitAt(0) - 65;
+    
+    // Random thứ tự
+    final indices = List.generate(originalOptions.length, (i) => i)..shuffle();
+    final shuffledOptions = indices.map((i) => originalOptions[i]).toList();
+    
+    // Tìm vị trí mới của đáp án trong mảng đã shuffle
+    final newAnswerIndex = indices.indexOf(originalAnswerIndex);
+    final newAnswer = String.fromCharCode(65 + newAnswerIndex); // A, B, C, D
+    
+    return _QuizQuestion(
+      question: json['question'] as String,
+      options: shuffledOptions,
+      answer: newAnswer,
+    );
+  }
+}
+
+class _QuizModal extends StatefulWidget {
+  final _QuizQuestion question;
+  final VoidCallback onCorrect;
+  final VoidCallback onWrong;
+
+  const _QuizModal({
+    required this.question,
+    required this.onCorrect,
+    required this.onWrong,
+  });
+
+  @override
+  State<_QuizModal> createState() => _QuizModalState();
+}
+
+class _QuizModalState extends State<_QuizModal> {
+  String? _selectedAnswer;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Câu hỏi Quiz'),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              widget.question.question,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+            ...widget.question.options.asMap().entries.map((entry) {
+              final index = entry.key;
+              final option = entry.value;
+              final optionLetter = String.fromCharCode(65 + index); // A, B, C, D
+              final isSelected = _selectedAnswer == optionLetter;
+
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: isSelected ? Colors.blue : null,
+                    minimumSize: const Size(double.infinity, 45),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _selectedAnswer = optionLetter;
+                    });
+                  },
+                  child: Text(
+                    '$optionLetter. $option',
+                    style: TextStyle(
+                      color: isSelected ? Colors.white : null,
+                      fontWeight: isSelected ? FontWeight.bold : null,
+                    ),
+                  ),
+                ),
+              );
+            }),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Hủy'),
+        ),
+        ElevatedButton(
+          onPressed: _selectedAnswer == null
+              ? null
+              : () {
+                  if (_selectedAnswer == widget.question.answer) {
+                    widget.onCorrect();
+                  } else {
+                    widget.onWrong();
+                  }
+                },
+          child: const Text('Xác nhận'),
+        ),
+      ],
+    );
+  }
+}
