@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'main.dart' show routeObserver;
 
 class MemoryGameScreen extends StatefulWidget {
   final String assetFolder;
@@ -10,18 +12,82 @@ class MemoryGameScreen extends StatefulWidget {
   State<MemoryGameScreen> createState() => _MemoryGameScreenState();
 }
 
-class _MemoryGameScreenState extends State<MemoryGameScreen> {
+class _MemoryGameScreenState extends State<MemoryGameScreen> with RouteAware {
   final List<_CardModel> _cards = <_CardModel>[];
   bool _isChecking = false;
   int _moves = 0;
   int _quizPoints = 0;
   String? _debugInfo;
   List<_QuizQuestion> _quizQuestions = [];
+  late AudioPlayer _flipPlayer;
+  late AudioPlayer _correctPlayer;
+  bool _isPlayingFlip = false;
+  bool _isPlayingCorrect = false;
 
   @override
   void initState() {
     super.initState();
+    _flipPlayer = AudioPlayer();
+    _correctPlayer = AudioPlayer();
+    
+    _flipPlayer.setReleaseMode(ReleaseMode.release);
+    _correctPlayer.setReleaseMode(ReleaseMode.release);
+    
     _initializeGame();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context) as PageRoute);
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    _flipPlayer.dispose();
+    _correctPlayer.dispose();
+    super.dispose();
+  }
+  
+  @override
+  void didPushNext() {
+    print('MemoryGame: didPushNext');
+    // Khi rời MemoryGameScreen, không cần làm gì vì MainMenu sẽ tự bật nhạc
+  }
+  
+  @override
+  void didPopNext() {
+    print('MemoryGame: didPopNext');
+    // Khi quay về MemoryGameScreen (ví dụ từ dialog), không cần làm gì
+  }
+
+  Future<void> _playFlipSound() async {
+    if (_isPlayingFlip) return;
+    _isPlayingFlip = true;
+    try {
+      await _flipPlayer.play(AssetSource('music/flip.mp3'));
+    } catch (e) {
+      print('Error playing flip sound: $e');
+    } finally {
+      Future.delayed(const Duration(milliseconds: 200), () {
+        _isPlayingFlip = false;
+      });
+    }
+  }
+
+  Future<void> _playCorrectSound() async {
+    if (_isPlayingCorrect) return;
+    _isPlayingCorrect = true;
+    try {
+      await _correctPlayer.play(AssetSource('music/correct.mp3'));
+    } catch (e) {
+      print('Error playing correct sound: $e');
+    } finally {
+      Future.delayed(const Duration(milliseconds: 500), () {
+        _isPlayingCorrect = false;
+      });
+    }
   }
 
   Future<void> _initializeGame() async {
@@ -114,6 +180,9 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
     setState(() {
       tapped.isFaceUp = true;
     });
+    
+    // Phát âm thanh flip
+    _playFlipSound();
 
     final List<_CardModel> faceUpUnmatched =
         _cards.where((c) => c.isFaceUp && !c.isMatched).toList(growable: false);
@@ -136,6 +205,7 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
           b.isMatched = true;
         });
         _isChecking = false;
+        _playCorrectSound();
         _checkWin();
       } else {
         // Not a match, flip back after a short delay
@@ -188,10 +258,14 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
               if (nextLevel != null) ...[
                 ElevatedButton(
                   onPressed: () {
+                    print('Playing next level - pop dialog');
                     Navigator.of(context).pop();
+                    print('Playing next level - pushReplacement');
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
-                        builder: (context) => MemoryGameScreen(assetFolder: nextLevel!),
+                        builder: (context) => MemoryGameScreen(
+                          assetFolder: nextLevel!,
+                        ),
                       ),
                     );
                   },
@@ -278,10 +352,9 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
                     crossAxisCount = 5;
                   } else if (width >= 600) {
                     crossAxisCount = 4;
-                  } else if (width >= 360) {
+                  } else if (width >= 400) {
                     crossAxisCount = 3;
                   }
-                  // < 360: default 2
 
                   return Column(
                     children: <Widget>[
@@ -562,3 +635,4 @@ class _QuizModalState extends State<_QuizModal> {
     );
   }
 }
+

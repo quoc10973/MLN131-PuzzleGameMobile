@@ -1,8 +1,106 @@
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'main.dart' show routeObserver;
 import 'memory_game_screen.dart';
 
-class MainMenuScreen extends StatelessWidget {
+class MainMenuScreen extends StatefulWidget {
   const MainMenuScreen({super.key});
+
+  @override
+  State<MainMenuScreen> createState() => _MainMenuScreenState();
+}
+
+class _MainMenuScreenState extends State<MainMenuScreen> with WidgetsBindingObserver, RouteAware {
+  late AudioPlayer _backgroundPlayer;
+  bool _isMusicPaused = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _backgroundPlayer = AudioPlayer();
+    _backgroundPlayer.setReleaseMode(ReleaseMode.loop);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context) as PageRoute);
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    WidgetsBinding.instance.removeObserver(this);
+    _backgroundPlayer.dispose();
+    super.dispose();
+  }
+  
+  @override
+  void didPush() {
+    // Khi push vào MainMenuScreen, phát nhạc
+    print('MainMenu: didPush - playing music');
+    _playBackgroundMusic();
+  }
+  
+  @override
+  void didPopNext() {
+    // Khi quay về MainMenuScreen từ màn hình khác, phát nhạc lại
+    print('MainMenu: didPopNext - playing music');
+    _playBackgroundMusic();
+  }
+  
+  @override
+  void didPushNext() {
+    // Khi rời MainMenuScreen, tắt nhạc
+    print('MainMenu: didPushNext - pausing music');
+    _pauseBackgroundMusic();
+  }
+  
+  @override
+  void didPop() {
+    // Khi pop khỏi MainMenuScreen, tắt nhạc
+    print('MainMenu: didPop - pausing music');
+    _pauseBackgroundMusic();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed && _isMusicPaused) {
+      _resumeBackgroundMusic();
+      _isMusicPaused = false;
+    }
+  }
+
+  Future<void> _playBackgroundMusic() async {
+    try {
+      await _backgroundPlayer.play(AssetSource('music/main_menu.mp3'));
+      _isMusicPaused = false;
+    } catch (e) {
+      print('Error playing main menu music: $e');
+    }
+  }
+
+  Future<void> _pauseBackgroundMusic() async {
+    print('MainMenu: pausing music');
+    try {
+      await _backgroundPlayer.pause();
+      _isMusicPaused = true;
+    } catch (e) {
+      print('Error pausing main menu music: $e');
+    }
+  }
+
+  Future<void> _resumeBackgroundMusic() async {
+    print('MainMenu: resuming music, _isMusicPaused=$_isMusicPaused');
+    try {
+      // Luôn phát lại từ đầu thay vì resume để tránh bug
+      await _playBackgroundMusic();
+    } catch (e) {
+      print('Error resuming main menu music: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +148,9 @@ class MainMenuScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => MemoryGameScreen(assetFolder: 'assets/puzzle/lv1/'),
+                        builder: (context) => const MemoryGameScreen(
+                          assetFolder: 'assets/puzzle/lv1/',
+                        ),
                       ),
                     );
                   },
@@ -63,7 +163,9 @@ class MainMenuScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => MemoryGameScreen(assetFolder: 'assets/puzzle/lv2/'),
+                        builder: (context) => const MemoryGameScreen(
+                          assetFolder: 'assets/puzzle/lv2/',
+                        ),
                       ),
                     );
                   },
@@ -76,7 +178,9 @@ class MainMenuScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => MemoryGameScreen(assetFolder: 'assets/puzzle/lv3/'),
+                        builder: (context) => const MemoryGameScreen(
+                          assetFolder: 'assets/puzzle/lv3/',
+                        ),
                       ),
                     );
                   },

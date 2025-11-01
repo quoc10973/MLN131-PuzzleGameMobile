@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'splash_screen.dart';
 
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
 void main() {
   runApp(const MyApp());
 }
@@ -13,6 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      navigatorObservers: [routeObserver],
       theme: ThemeData(
         // This is the theme of your application.
         //
